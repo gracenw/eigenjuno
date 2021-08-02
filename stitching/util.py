@@ -3,7 +3,7 @@ import spiceypy as spice
 print(spice.tkvrsn("TOOLKIT"))
 
 
-path = "/mnt/c/users/grace/documents/juno_stitching/"
+path = '/home/uzumochi/eigenjuno/stitching/kernels/'
 
 KERNEL_LIST = [
 	path+"naif0012.tls",						# basic functionality i think
