@@ -72,8 +72,7 @@ class Framelet:
 
         in_shape = pos.shape[:-1]
         pixel_coords = pixel_coords.reshape(-1,2)
-        with open('coords.txt', 'a') as coords:
-            coords.write('another pixel\n')
+        
         out_val = self.interp_function(pixel_coords[...,0], pixel_coords[...,1], grid=False)
         out_val = np.maximum(out_val, 0) # need to do that because the spline interpol sometimes goes negative
 

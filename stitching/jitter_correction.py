@@ -98,7 +98,7 @@ def correct_image_start_time_and_frame_delay(raw_image_array, raw_image_time_sta
     s1, s2 = raw_image_array.shape
     raw_image_mask = get_raw_image_mask(raw_image_array)
     direction_array = np.concatenate(CAMERA_STRIPE_VECTORS, axis=0)
-
+    
     for i in range(2):
         pixel_offset = 0
         pixel_offset_count = 0

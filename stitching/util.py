@@ -11,9 +11,9 @@ KERNEL_LIST = [
 	path+"juno_v12.tf",							# juno reference frame description
 	path+"jup310.bsp",							# jupiter information
 	path+"jno_sclkscet_00094.tsc",				# clock information i think
-	path+"juno_rec_200508_200629_200709.bsp",
+	path+"perijove_15.bsp",
 	path+"pck00010.tpc",
-	path+"juno_sc_rec_200531_200606_v01.bc"
+	path+"perijove_15.bc"
 	]
 spice.furnsh(KERNEL_LIST)						# loading these kernels
 

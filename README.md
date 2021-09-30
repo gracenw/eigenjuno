@@ -1,6 +1,6 @@
 # Object Detection and Classification for JunoCam Images
 - Python notebook containing current research for using eigenimages to detect features on Jupiter's surface
-- Now includes stitching workload (as of 7/26/21)
+- Now includes stitching workload (as of 7/26/21) based on [this](https://www.reddit.com/r/space/comments/ewl69t/my_frustrating_walkthrough_to_processing_junocams/) reddit post
 - Code based on tutorials found [here](https://pythonmachinelearning.pro/face-recognition-with-eigenfaces/) and [here](https://www.betterdatascience.com/eigenfaces%E2%80%8A-%E2%80%8Aface-classification-in-python/), and algorithm found [here](https://sites.cs.ucsb.edu/~mturk/Papers/mturk-CVPR91.pdf)
 
 ## Previous Milestones
