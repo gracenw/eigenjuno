@@ -9,13 +9,15 @@
 - Contrasted images shown to be more accurate than non-contrasted
 - Algorithm can detect and classify individual cropped images containing white storms with 90% accuracy
 - Chopping up new images and running through divide-and-conquer pipeline
+- Divide-and-conquer pipeline detects features within an image with moderate accuracy
+- Test divide-and-conquer pipeline on more new images
 
 ## Current Work
-- Divide-and-conquer pipeline is still producing strange results (there's an error somewhere in classification)
+- Add more no storm images to dataset
+- Implement divide-and-conquer at multiple resolutions
 
 ## Future Work
-- Test divide-and-conquer pipeline on more new images
-- Add more features to dataset
-- Include ability to add eigenfaces to eigenspace for newly discovered features
 - Connect features to their actual coordinates with SPICE data
 - Produce tracking results across perijoves / introduce some sort of memory capability
+- Add more features to dataset
+- Include ability to add eigenfaces to eigenspace for newly discovered features
