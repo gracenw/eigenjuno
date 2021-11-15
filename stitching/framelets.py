@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.interpolate import RectBivariateSpline
 
-from utils import *
+from util import *
 import csv
 
 

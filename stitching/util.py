@@ -2,6 +2,21 @@ import numpy as np
 import spiceypy as spice
 print(spice.tkvrsn("TOOLKIT"))
 
+
+path = '/home/uzumochi/eigenjuno/stitching/kernels/'
+
+KERNEL_LIST = [
+	path+"naif0012.tls",						# basic functionality i think
+	path+"de430.bsp",							# basic solar system info
+	path+"juno_v12.tf",							# juno reference frame description
+	path+"jup310.bsp",							# jupiter information
+	path+"jno_sclkscet_00094.tsc",				# clock information i think
+	path+"perijove_15.bsp",
+	path+"pck00010.tpc",
+	path+"perijove_15.bc"
+	]
+spice.furnsh(KERNEL_LIST)						# loading these kernels
+
 JUPITER_EQUATORIAL_RADIUS = 71492  # km
 JUPITER_POLAR_RADIUS = 66854  # km
 STRIPE_LENGTH = 1648  # px

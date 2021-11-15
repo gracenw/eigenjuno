@@ -3,7 +3,7 @@ import json
 from PIL import Image
 import cv2  # only needed in detect_sharp_edges
 
-from utils import *
+from util import *
 
 BLUE_JUPITER_THRESHOLD = 35
 GREEN_JUPITER_THRESHOLD = 75
