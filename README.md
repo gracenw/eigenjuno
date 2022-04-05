@@ -24,23 +24,23 @@ The JunoCam is a moderate-resolution camera mounted on the Juno spacecraft, laun
 -->
 
 ## File Structure
-eigejuno
-    |____ eigenimages.ipynb
-    |____ utils.py
-    |____ DATA
-    |      |____ RAW
-    |      |      |_________ PERIJOVE-XX
-    |      |________ TEST
-    |      |________ TRAIN
-    |                  |____ ONE
-    |                  |____ ZERO
-    |                  |____ PROCESS
-    |____ FIGURES
-    |____ LOGS
-    |____ MODELS
-    |____ STITCHING
-              |____ main.ipyng
-              |____ stitch.py
-              |____ KERNELS
-                       |____ CURRENT
+eigejuno  
+    |____ eigenimages.ipynb  
+    |____ utils.py  
+    |____ DATA  
+    |      |____ RAW  
+    |      |      |_________ PERIJOVE-XX  
+    |      |________ TEST  
+    |      |________ TRAIN  
+    |                  |____ ONE  
+    |                  |____ ZERO  
+    |                  |____ PROCESS  
+    |____ FIGURES  
+    |____ LOGS  
+    |____ MODELS  
+    |____ STITCHING  
+              |____ main.ipynb  
+              |____ stitch.py  
+              |____ KERNELS  
+                       |____ CURRENT  
 
