@@ -1,1 +1,1 @@
-This code is adapted from [this post](https://www.reddit.com/r/space/comments/ewl69t/my_frustrating_walkthrough_to_processing_junocams/)
+This code is adapted from [this GitHub repository](https://github.com/cosmas-heiss/JunoCamRawImageProcessing). All credit goes to Cosmas Heiss for his original implementation!
