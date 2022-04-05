@@ -1,23 +1,46 @@
 # Object Detection and Classification for JunoCam Images
 - Python notebook containing current research for using eigenimages to detect features on Jupiter's surface
-- Now includes stitching workload (as of 7/26/21) based on [this](https://www.reddit.com/r/space/comments/ewl69t/my_frustrating_walkthrough_to_processing_junocams/) reddit post
-- Code based on tutorials found [here](https://pythonmachinelearning.pro/face-recognition-with-eigenfaces/) and [here](https://www.betterdatascience.com/eigenfaces%E2%80%8A-%E2%80%8Aface-classification-in-python/), and algorithm found [here](https://sites.cs.ucsb.edu/~mturk/Papers/mturk-CVPR91.pdf)
+- Stitching workload adapted from [this repository](https://github.com/cosmas-heiss/JunoCamRawImageProcessing/)
+- Code based on algorithm found in [this paper](https://sites.cs.ucsb.edu/~mturk/Papers/mturk-CVPR91.pdf)
 
+## Abstract
+The JunoCam is a moderate-resolution camera mounted on the Juno spacecraft, launched by the National Aeronautic and Space Administration (NASA) in 2011, used to generate images of a previously unseen quality for both research and public outreach. Detailed Red, Green, and Blue (RGB) images from JunoCam can be used in conjunction with object detection algorithms to track visual features of Jupiter’s atmosphere. The positioning and movement of these features, such as circumpolar cyclones, hazes, and more, can provide insight into the nature of Jupiter’s atmosphere. This positional data can be used in conjunction with infrared and microwave data from Jovian InfraRed Auroral Mapper (JIRAM) and Microwave Radiometer (MWR) to give a more comprehensive assessment of Jupiter’s atmospheric qualities. The object detection method to be used in this research is eigenimaging, an approach adapted from the facial recognition method of eigenfaces. This methodology uses the eigenvectors of images projected onto a known eigenspace to match images from a new perijove capture to those in a dataset of previous perijoves. The efficient detection and classification of features across perijove captures is the ultimate goal of this method, wherein further analysis will extract the desired positional data. The objective of this proposed research is to prove that eigenimaging is a viable tracking method for white storms of various sizes on Jupiter’s surface and to provide a framework for expanding the algorithms tracking mechanisms and trackable features. 
+
+<!-- 
 ## Previous Milestones
 - Eigenimaging proves to be easily trainable using SVM on JunoCam images
-  - Most effective classifier is C-Support Vector Classifier
 - Contrasted images shown to be more accurate than non-contrasted
 - Algorithm can detect and classify individual cropped images containing white storms with 90% accuracy
 - Chopping up new images and running through divide-and-conquer pipeline
 - Divide-and-conquer pipeline detects features within an image with moderate accuracy
 - Test divide-and-conquer pipeline on more new images
-
-## Current Work
 - Add more no storm images to dataset
 - Implement divide-and-conquer at multiple resolutions
-
-## Future Work
 - Connect features to their actual coordinates with SPICE data
-- Produce tracking results across perijoves / introduce some sort of memory capability
-- Add more features to dataset
 - Include ability to add eigenfaces to eigenspace for newly discovered features
+## Future Work
+- Produce tracking results across perijoves / introduce some sort of memory capability
+- Add more features to dataset 
+-->
+
+## File Structure
+eigenjuno  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ eigenimages.ipynb  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ utils.py  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ FIGURES  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ LOGS  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ MODELS  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ DATA  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ TEST  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ RAW  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ PERIJOVE-XX  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ TRAIN  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ ONE  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ ZERO  
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ PROCESS  
+&nbsp;&nbsp;&nbsp;&nbsp;|____ STITCHING  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ main.ipynb  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ stitch.py  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ KERNELS  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ CURRENT  
+
