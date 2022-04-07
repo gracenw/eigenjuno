@@ -46,6 +46,6 @@ eigenjuno
 
 ## Required Packages
 After installing Anaconda, all required packages can be downloaded with:  
-'''bash
+```bash
 conda install --file package-list.txt
-'''
+```
