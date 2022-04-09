@@ -1,4 +1,4 @@
-# Object Detection and Classification for JunoCam Images
+# Object Detection and Classification of JunoCam Images
 - Python notebook containing current research for using eigenimages to detect features on Jupiter's surface
 - Stitching workload adapted from [this repository](https://github.com/cosmas-heiss/JunoCamRawImageProcessing/)
 - Code based on algorithm found in [this paper](https://sites.cs.ucsb.edu/~mturk/Papers/mturk-CVPR91.pdf)
@@ -44,3 +44,8 @@ eigenjuno
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ KERNELS  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ CURRENT  
 
+## Required Packages
+After installing Anaconda, all required packages can be downloaded with:  
+```bash
+conda install --file package-list.txt
+```
