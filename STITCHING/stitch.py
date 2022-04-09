@@ -1,7 +1,6 @@
 ## code taken from this repo - https://github.com/cosmas-heiss/JunoCamRawImageProcessing - modifiable under gnu license
 ## all credit to the original code author, Cosmas Heiss
 
-## supports simple stitching process to create 2D color images of jupiter
 import numpy as np
 import spiceypy as spice
 from scipy.interpolate import RectBivariateSpline
