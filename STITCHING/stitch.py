@@ -68,17 +68,18 @@ def get_junocam_jupiter_rel_pos_orient(time_str, add_seconds=0):
     """
     et = spice.str2et(time_str)+add_seconds
     pos, light_time = spice.spkpos("Juno", [et], 'IAU_JUPITER', 'NONE', 'JUPITER BARYCENTER')
-    JUNO_TO_CUBE = np.matrix([[-0.0059163, -0.0142817, -0.9998805], 
-                              [ 0.0023828, -0.9998954,  0.0142678], 
-                              [-0.9999797, -0.0022981,  0.0059497]])
-    CUBE_TO_CAM = (R.from_euler('zyx', [0.69, -0.469,  0.583])).as_matrix()
-    rot_matrix = CUBE_TO_CAM * JUNO_TO_CUBE
-    pos = rot_matrix * pos.reshape(-1, 1)
-    pos = np.array(pos).ravel()
+    pos = np.array(pos[0])
+    # JUNO_TO_CUBE = np.matrix([[-0.0059163, -0.0142817, -0.9998805], 
+    #                           [ 0.0023828, -0.9998954,  0.0142678], 
+    #                           [-0.9999797, -0.0022981,  0.0059497]])
+    # CUBE_TO_CAM = (R.from_euler('zyx', [0.69, -0.469,  0.583])).as_matrix()
+    # rot_matrix = CUBE_TO_CAM * JUNO_TO_CUBE
+    # pos = rot_matrix * pos.reshape(-1, 1)
+    # pos = np.array(pos).ravel()
 
-    orient = spice.pxform("IAU_JUPITER", "Juno", et)
-    JUP_TO_JUNO = np.matrix(orient)
-    orient = CUBE_TO_CAM * (JUNO_TO_CUBE * JUP_TO_JUNO)
+    orient = spice.pxform("IAU_JUPITER", "JUNO_JUNOCAM", et)
+    # JUP_TO_JUNO = np.matrix(orient)
+    # orient = CUBE_TO_CAM * (JUNO_TO_CUBE * JUP_TO_JUNO)
     
     return pos, np.array(orient)
 
