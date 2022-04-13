@@ -449,3 +449,57 @@ def correct_image_start_time(raw_image_array, raw_image_time_stamp, frame_delay)
         # 2rpm = 12deg/sec, approx 5deg per stripe and 128px per stripe
         time_offset += 5/(12*128)*pixel_offset/pixel_offset_count
     return time_offset
+
+
+def stitch(meta_num):
+    np.seterr(divide = 'ignore', invalid = 'ignore')
+    
+    x_dim = 2048
+    y_dim = 2048
+    im_info = meta_num + '-Metadata.json'
+    with open(im_info, 'r') as json_file:
+        im_info_dir = json.load(json_file)
+        image = im_info_dir['FILE_NAME']
+        image_time = im_info_dir['IMAGE_TIME']
+    
+    img = Image.open(image)
+    im_ar = np.array(img)
+    
+    s1, s2 = im_ar.shape
+
+    start_time = im_info_dir["START_TIME"]
+    frame_delay = float(im_info_dir["INTERFRAME_DELAY"].split()[0]) + 0.001
+    
+    start_correction, frame_delay = correct_image_start_time_and_frame_delay(im_ar, start_time, frame_delay)
+    
+    framelets = generate_framelets(im_ar, start_time, start_correction, frame_delay) # im_ar.astype(np.int) ** 2
+
+    cam_pos, cam_orient = get_junocam_jupiter_rel_pos_orient(start_time, start_correction + 17 * frame_delay)
+
+    y, x = np.mgrid[-y_dim/2:y_dim/2, -x_dim/2:x_dim/2]
+    x += 260
+    y += 95
+    rays = np.concatenate([x[..., None], y[..., None], np.ones(((y_dim), (x_dim), 1)) * fl[0]], axis = -1)
+    rays = rays.dot(cam_orient)
+
+    surface_raster, surface_mask = project_onto_jupiter_surf(cam_pos, rays)
+    
+    np.save(meta_num + '-Raster', surface_raster)
+    
+    colors = np.zeros(((y_dim), (x_dim), 3))
+    color_counts = np.zeros(((y_dim), (x_dim), 3))
+
+    for k,framelet in enumerate(framelets):
+        print(str(meta_num) + ': processing framelet', (k + 1), 'of', len(framelets))
+        col = framelet.color
+        brightnesses, valid_map = framelet.get_pixel_val_at_surf_point(surface_raster)
+        colors[..., 2 - col] += brightnesses
+        color_counts[..., 2 - col] += valid_map
+
+    colors /= np.maximum(color_counts, 1)
+    colors *= 255 / np.max(colors)
+
+    colors = colors.astype(np.uint8)
+
+    new_img = Image.fromarray(colors)
+    new_img.save(str(meta_num) + '-Stitched.png')
