@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial.transform import Rotation as R
 from datetime import datetime
 
-np.seterr(divide = 'ignore', invalid = 'ignore')
+np.seterr(divide = 'ignore', invalid = 'ignore') ## divide by zero errors pop up sometimes - they aren't critical, so we ignore them :)
 
 VEC_SIZE = 256 * 256 * 3
 VEC_DIM = (256, 256, 3)
