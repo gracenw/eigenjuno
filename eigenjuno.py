@@ -18,9 +18,13 @@ VEC_DIM = (256, 256, 3)
 def contrast_resize(img_loc, new_size):
     """
     contrast new test image with CLAHE cv2 function
-    :param img_loc: path to 2048x2048 image
-    :param new_size: 2D nd-array containing new x, y dimensions of image
-    :return: img, resized and contrasted cv2 image
+    ---
+    parameters: 
+    img_loc - path to 2048x2048 image
+    new_size - 2D nd-array containing new x, y dimensions of image
+    ---
+    returns:
+    img - resized and contrasted cv2 image
     """
     img = cv2.imread(img_loc, 3)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
@@ -37,17 +41,36 @@ def contrast_resize(img_loc, new_size):
 def train(data, tags):
     """
     train svm using pca and junocam images, saves models for safekeeping
-    :param data: nd-array containing unrolled dataset images
-    :param tags: 1D array containing binary labels for each dataset image
-    :return: svm, trained support vector machine
-             pca, trained principal component analysis dimsionality reduction transform
+    ---
+    parameters: 
+    data - nd-array containing unrolled dataset images
+    tags - 1D array containing binary labels for each dataset image
+    ---
+    returns:
+    svm - trained support vector machine
+    pca - trained principal component analysis dimsionality reduction transform
     """
+#     transform_data = np.empty((data.shape[0] * 4, VEC_SIZE))
+#     transform_tags = np.empty(data.shape[0] * 4)
+    
+#     for i in range(data.shape[0]):
+#         transform_data[(i * 4) + 0, :] = np.copy(data[i, :])
+#         transform_data[(i * 4) + 1, :] = np.rot90(data[i, :].reshape(VEC_DIM), k = 1, axes = (0, 1)).reshape(VEC_SIZE)
+#         transform_data[(i * 4) + 2, :] = np.rot90(data[i, :].reshape(VEC_DIM), k = 2, axes = (0, 1)).reshape(VEC_SIZE)
+#         transform_data[(i * 4) + 3, :] = np.rot90(data[i, :].reshape(VEC_DIM), k = 3, axes = (0, 1)).reshape(VEC_SIZE)
+#         transform_tags[(i * 4) + 0] = tags[i]
+#         transform_tags[(i * 4) + 1] = tags[i]
+#         transform_tags[(i * 4) + 2] = tags[i]
+#         transform_tags[(i * 4) + 3] = tags[i]
+        
+#     data = np.copy(transform_data)
+#     tags = np.copy(transform_tags)
     X_train, X_test, y_train, y_test = train_test_split(data, tags, test_size = 0.2) ## split data into training and test sets
 
     pca = PCA(n_components = 0.9, svd_solver = 'full').fit(X_train) ## generate pca transform
     print('Decomposed test set to', pca.components_.shape[0], 'components')
     X_train_PCA = pca.transform(X_train)
-    X_test_PCA = pca.transform(X_test)## apply pca transform to x_test
+    X_test_PCA = pca.transform(X_test) ## apply pca transform to x_test
 
     C_RANGE = np.logspace(-3, 3, 20)
     G_RANGE = np.logspace(-9, 1, 20)
@@ -87,12 +110,32 @@ def train(data, tags):
 
 
 def load_models():
+    """
+    load optimal svm and pca models
+    ---
+    parameters: 
+    none
+    ---
+    returns:
+    svm - optimal trained support vector machine
+    pva - optimal trained principal component analysis dimsionality reduction transform
+    """
     svm = pickle.load(open('MODELS/svm_model_opt.sav', 'rb'))
     pca = pickle.load(open('MODELS/pca_model_opt.sav', 'rb'))
     return svm, pca
 
     
 def save_models(svm, pca):
+    """
+    save optimal svm and pca models
+    ---
+    parameters: 
+    svm - optimal trained support vector machine
+    pva - optimal trained principal component analysis dimsionality reduction transform
+    ---
+    returns:
+    none
+    """
     pickle.dump(svm, open('MODELS/svm_model_opt.sav', 'wb'))
     pickle.dump(pca, open('MODELS/pca_model_opt.sav', 'wb'))
 
@@ -102,8 +145,12 @@ svm, pca = load_models()
 def break_blocks(img):
     """
     recursively shift, divide, and classify an image
-    :param img: 2048x2048 cv2 image
-    :return: detections, nd-array shape 2048x2048 - contains accumulated binary labels at each pixel
+    ---
+    parameters: 
+    img - 2048x2048x3 cv2 image
+    ---
+    returns:
+    detections - nd-array shape 2048x2048 containing accumulated bianry labels at each pixel
     """
     full_size = img.shape[0]
     block_size = int(full_size / 2)
@@ -162,8 +209,12 @@ def break_blocks(img):
 def test(TEST_DIR, TEST_NAME):
     """
     contrast and classify new test image with divide/shift/conquer pipeline
-    :param img_loc: path to 2048x2048 image
-    :return: detections, nd-array shape 2048x2048 - contains accumulated binary labels at each pixel
+    ---
+    parameters: 
+    img_loc - path t0 2048x2048 test image
+    ---
+    returns:
+    detections - nd-array of shape 2048x2048 containing accumulated bianry labels at each pixel
     """
     img_loc = os.path.join(TEST_DIR, str(TEST_NAME) + '-Stitched.png')
     img = contrast_resize(img_loc, (2048, 2048))
@@ -199,6 +250,17 @@ def test(TEST_DIR, TEST_NAME):
 
 
 def read_data(TRAIN_DIR, TRAIN_SIZE):
+    """
+    read training/validation image and label data from dataset
+    ---
+    parameters: 
+    TRAIN_DIR - os.path object containing location of training images
+    TRAIN_SIZE - number of distinct images in dataset
+    ---
+    returns:
+    data - nd-array of shape TRAIN_SIZExVEC_DIM containing all image data of dataset
+    tags - 1D-array containing associated binary labels of dataset images
+    """
     tags = np.empty(TRAIN_SIZE)
     data = np.empty((TRAIN_SIZE, VEC_SIZE))
 
@@ -222,6 +284,15 @@ def read_data(TRAIN_DIR, TRAIN_SIZE):
 
 
 def load_kernels(KERNEL_DIR):
+    """
+    load appropriate SPICE kernels for computing geometries
+    ---
+    parameters: 
+    KERNEL_DIR - os.path object containing location of all needed kernels
+    ---
+    returns:
+    none
+    """
     KERNELS = []
     for r, d, f in os.walk(KERNEL_DIR):
         for file in f:
@@ -234,6 +305,16 @@ def load_kernels(KERNEL_DIR):
         
         
 def get_etime(TEST_DIR, TEST_NAME):
+    """
+    convert image time in UTC to ephemeris time
+    ---
+    parameters: 
+    TEST_DIR - os.path object containing loation of TEST_NAME test image
+    TEST_NAME - test image number
+    ---
+    returns:
+    et - SPICE ephemeris time object
+    """
     with open(os.path.join(TEST_DIR, TEST_NAME + '-Metadata.json'), 'r') as f:
         img_json = json.load(f)
         image = img_json['FILE_NAME']
@@ -243,6 +324,17 @@ def get_etime(TEST_DIR, TEST_NAME):
     
 
 def get_position(et):
+    """
+    get position and orientation of junocam relative to jupiter
+    ---
+    parameters: 
+    et - SPICE ephemeris time of the spacecraft at unknown
+    ---
+    returns:
+    long - planetocentric longitude of junocam projected onto jupiter
+    lat - planetocentric latitude of junocam prohect onto jupiter
+    orient - 3x3 array describing the orientation of the camera relative to jupiter
+    """
     pos, lt = spice.spkpos('JUNO', et, 'IAU_JUPITER', 'NONE', 'JUPITER')
 
     JUNO_TO_CUBE = np.matrix([[-0.0059163, -0.0142817, -0.9998805], 
@@ -261,6 +353,16 @@ def get_position(et):
 
 
 def raster_to_planeto(TEST_DIR, TEST_NAME):
+    """
+    convert surface raster of rectangular coordinates to planetocentric long/lat
+    ---
+    parameters: 
+    TEST_DIR - os.path object containing loation of TEST_NAME test image
+    TEST_NAME - test image number
+    ---
+    returns:
+    coords - nd-array of shape 2048x2048x2 containing the planetocentric latitude and longitude of each point in image
+    """
     raster = np.load(os.path.join(TEST_DIR, str(TEST_NAME) + '-Raster.npy'))
     coords = np.empty((2048, 2048, 2))
     
@@ -278,6 +380,17 @@ def raster_to_planeto(TEST_DIR, TEST_NAME):
 
 
 def log_detections(TEST_DIR, TEST_NAME, detections):
+    """
+    record long/lat of areas where storms are detected in log file
+    ---
+    parameters: 
+    detections - nd-array of shape 2048x2048 containing accumulated bianry labels at each pixel
+    TEST_DIR - os.path object containing loation of TEST_NAME test image
+    TEST_NAME - test image number
+    ---
+    returns:
+    none
+    """
     iterations = 16 ## predetermined
     
     det_indices = np.argwhere(detections / iterations > 0.75)
@@ -318,20 +431,24 @@ def log_detections(TEST_DIR, TEST_NAME, detections):
     fig.savefig('FIGURES/threshold_maps_' + str(TEST_NAME) + '.png')
 
 
-# def retrain():
-#     fig, axes = plt.subplots(6, 6, figsize = (18, 20))
-#     green_indices = []
-#     for i, ax in enumerate(axes.flat):
-#         block = retrain_blocks[i, :].reshape((VEC_DIM)) * 255
-#         if len(np.where((block[:, :, 0] == 0) & (block[:, :, 1] != 0) & (block[:, :, 2] != 0))[0]) == 0:
-#             ax.imshow(block / 255)
-#             ax.axis('off')
-#         else:
-#             fig.delaxes(ax)
-#             green_indices.append(i)
-#     retrain_blocks = np.delete(retrain_blocks, green_indices, axis = 0)
-
-#     curr = TRAIN_SIZE + 1
-#     for i in range(retrain_blocks.shape[0]):
-#         plt.imsave(str(curr) + '.png', retrain_blocks[i, :].reshape((VEC_DIM)))
-#         curr += 1
+def retrain(data, tags, new_imgs):
+    """
+    retrain the svm and pca models using new data
+    ---
+    parameters: 
+    new_imgs - nd-array containing new num_imgsx2048x2048x3 cv2 images to add to training set
+    ---
+    returns:
+    pca - updated trained principal component analysis dimsionality reduction transform
+    svm - updated trained support vector machine
+    """
+    num_imgs = new_images.shape[0]
+    retrain_blocks = np.empty((num_imgs * 64, VEC_SIZE))
+    
+    for img in range(num_imgs):
+        
+    
+    curr = TRAIN_SIZE + 1
+    for i in range(retrain_blocks.shape[0]):
+        plt.imsave(str(curr) + '.png', retrain_blocks[i, :].reshape((VEC_DIM)))
+        curr += 1
